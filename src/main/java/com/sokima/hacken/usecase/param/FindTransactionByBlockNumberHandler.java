@@ -10,23 +10,19 @@ import java.util.Objects;
 import java.util.Set;
 
 @ApplicationScoped
-public class FindTransactionByBlockNumberHandler extends AbstractTransactionParamsHandler implements TransactionParamsHandler {
+public class FindTransactionByBlockNumberHandler implements TransactionParamsHandler {
 
     @Inject
     FindTransactionOutPort findTransactionOutPort;
 
-    @Override
-    protected Set<NodeTransaction> call(final TransactionsParam transactionsParam) {
-        return findTransactionOutPort.findNodeTransactionsByBlockNumber(transactionsParam.getBlockNumber());
-    }
+    @Inject
+    FindAllTransactionsHandler next;
 
     @Override
-    public int ordered() {
-        return 1;
-    }
-
-    @Override
-    protected boolean isSupport(final TransactionsParam transactionsParam) {
-        return Objects.nonNull(transactionsParam.getBlockNumber());
+    public Set<NodeTransaction> extractTransactions(final TransactionsParam transactionsParam) {
+        if (Objects.nonNull(transactionsParam.getBlockNumber())) {
+            return findTransactionOutPort.findNodeTransactionsByBlockNumber(transactionsParam.getBlockNumber());
+        }
+        return next.extractTransactions(transactionsParam);
     }
 }

@@ -7,6 +7,4 @@ import java.util.Set;
 
 public interface TransactionParamsHandler {
     Set<NodeTransaction> extractTransactions(final TransactionsParam transactionsParam);
-
-    int ordered();
 }

@@ -9,23 +9,13 @@ import jakarta.inject.Inject;
 import java.util.Set;
 
 @ApplicationScoped
-public class FindAllTransactionsHandler extends AbstractTransactionParamsHandler implements TransactionParamsHandler {
+public class FindAllTransactionsHandler implements TransactionParamsHandler {
 
     @Inject
     FindTransactionOutPort findTransactionOutPort;
 
     @Override
-    protected Set<NodeTransaction> call(final TransactionsParam transactionsParam) {
+    public Set<NodeTransaction> extractTransactions(TransactionsParam transactionsParam) {
         return findTransactionOutPort.findNodeTransactions();
-    }
-
-    @Override
-    public int ordered() {
-        return Integer.MAX_VALUE; // the last in chain
-    }
-
-    @Override
-    protected boolean isSupport(final TransactionsParam transactionsParam) {
-        return true; // the last in chain
     }
 }
