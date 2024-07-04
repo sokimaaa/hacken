@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
+import jakarta.inject.Inject;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -23,6 +24,7 @@ public class EthConnectAdapter implements ConnectEvmNodeOutPort {
 
     private final Web3j web3j;
 
+    @Inject
     public EthConnectAdapter(
             final EthNodePropertiesUseCase ethProperties,
             final SaveTransactionOutPort saveTransactionOutPort
@@ -54,8 +56,8 @@ public class EthConnectAdapter implements ConnectEvmNodeOutPort {
                     .subscribe(saveTransactionOutPort::saveTx, ex -> {
                         if (ex != null) {
                             log.error("Error saving eth transaction", ex);
-                            Thread.currentThread().interrupt();
                             connect();
+                            Thread.currentThread().interrupt();
                         }
                     });
         });
