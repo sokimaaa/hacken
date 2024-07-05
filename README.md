@@ -40,6 +40,9 @@ GET /transactions?nodeType=<VALUE> (get txs by `nodeType`, e.g. eth)
 
 GET /transactions?blockNumber=<VALUE> (get txs by `blockNumber`)
 
+### Api Doc
+Refer to `/swagger-ui`
+
 ## Demonstration 
 Pulling tx from eth-mainnet:
 ![](./img/pull_tx_logs.png)
