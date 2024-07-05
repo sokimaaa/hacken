@@ -52,6 +52,13 @@ public class EthConnectAdapter implements ConnectEvmNodeOutPort {
                 )
                 .doOnNext(tx -> log.info("Inbound eth tx: {}", tx))
                 .retry(RETRY_NUMBER)
-                .subscribe(saveTransactionOutPort::saveTx);
+                .subscribe(saveTransactionOutPort::saveTx, ex -> {
+                    log.warn("Error while saving eth tx: {}", ex.getMessage());
+                    reconnect();
+                });
+    }
+
+    private void reconnect() {
+        connect();
     }
 }

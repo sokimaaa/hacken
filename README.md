@@ -43,6 +43,9 @@ GET /transactions?blockNumber=<VALUE> (get txs by `blockNumber`)
 ### Api Doc
 Refer to `/swagger-ui`
 
+### Metrics
+Refer to `/q/metrics`
+
 ## Demonstration 
 Pulling tx from eth-mainnet:
 ![](./img/pull_tx_logs.png)
@@ -53,3 +56,8 @@ Db screenshot with saved tx:
 REST GET /transactions query:
 ![](./img/rest_find_query.png)
 
+Metrics example:
+![](./img/metrics_example.png)
+
+Swagger example:
+![](./img/swagger-example.png)
