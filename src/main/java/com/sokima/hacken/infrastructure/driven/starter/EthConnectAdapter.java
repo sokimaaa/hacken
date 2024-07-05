@@ -38,28 +38,38 @@ public class EthConnectAdapter implements ConnectEvmNodeOutPort {
     public void connect() {
         CompletableFuture.runAsync(() -> {
             log.info("Connecting to eth node: {}", ethProperties.nodeUrl());
-            web3j.transactionFlowable()
-                    .map(
-                            tx -> new NodeTransaction(
-                                    ethProperties.nodeType(),
-                                    tx.getChainId(),
-                                    tx.getBlockNumber(),
-                                    tx.getTransactionIndex(),
-                                    tx.getFrom(),
-                                    tx.getTo(),
-                                    tx.getGas(),
-                                    tx.getGasPrice(),
-                                    tx.getValue()
-                            )
-                    )
-                    .doOnNext(tx -> log.info("Inbound eth tx: {}", tx))
-                    .subscribe(saveTransactionOutPort::saveTx, ex -> {
-                        if (ex != null) {
-                            log.error("Error saving eth transaction", ex);
+            try {
+                web3j.transactionFlowable()
+                        .map(
+                                tx -> new NodeTransaction(
+                                        ethProperties.nodeType(),
+                                        tx.getChainId(),
+                                        tx.getBlockNumber(),
+                                        tx.getTransactionIndex(),
+                                        tx.getFrom(),
+                                        tx.getTo(),
+                                        tx.getGas(),
+                                        tx.getGasPrice(),
+                                        tx.getValue()
+                                )
+                        )
+                        .doOnNext(tx -> log.info("Inbound eth tx: {}", tx))
+                        .doOnError(thr -> {
+                            log.error("Error connecting to eth node: {}", ethProperties.nodeUrl());
                             connect();
-                            Thread.currentThread().interrupt();
-                        }
-                    });
+                        })
+                        .subscribe(saveTransactionOutPort::saveTx, ex -> {
+                            if (ex != null) {
+                                log.error("Error saving eth transaction", ex);
+                                connect();
+                                Thread.currentThread().interrupt();
+                            }
+                        });
+            } catch (Exception e) {
+                log.error("Error connecting to eth node (catch): {}", ethProperties.nodeUrl());
+                connect();
+            }
+
         });
     }
 }

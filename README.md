@@ -30,10 +30,23 @@ create table TransactionEntity
 create sequence TransactionEntity_SEQ start with 1 increment by 50;
 ```
 
+## REST API
+
+GET /transactions (get first 500 records)
+
+GET /transactions?to=<VALUE> (get txs by `to`)
+
+GET /transactions?nodeType=<VALUE> (get txs by `nodeType`, e.g. eth)
+
+GET /transactions?blockNumber=<VALUE> (get txs by `blockNumber`)
+
 ## Demonstration 
 Pulling tx from eth-mainnet:
 ![](./img/pull_tx_logs.png)
 
 Db screenshot with saved tx:
 ![](./img/db_tx_select_all.png)
+
+REST GET /transactions query:
+![](./img/rest_find_query.png)
 

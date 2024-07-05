@@ -21,8 +21,8 @@ public class TransactionResource {
     @GET
     @Produces(APPLICATION_JSON)
     public Response getTransactions(@BeanParam Optional<TransactionsParam> transactionsParam) {
-        return Response.ok(getNodeTransactionInPort.getNodeTransactionsByParam(
-                transactionsParam.orElse(new TransactionsParam())
-        )).build();
+        final var txParam = transactionsParam.orElse(new TransactionsParam());
+        final var result = getNodeTransactionInPort.getNodeTransactionsByParam(txParam);
+        return Response.ok(result).build();
     }
 }
