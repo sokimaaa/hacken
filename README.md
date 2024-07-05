@@ -61,3 +61,8 @@ Metrics example:
 
 Swagger example:
 ![](./img/swagger-example.png)
+
+## Another works
+Take a look on my another works:
+https://github.com/sokimaaa/reactive-grpc-bookstore
+
