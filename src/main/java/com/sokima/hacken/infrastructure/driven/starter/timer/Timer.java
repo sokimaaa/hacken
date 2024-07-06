@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 /**
- * Workaround to fix:
+ * Workaround to provide reliability in case of:
  * WARN  [org.web.pro.cor.fil.Filter] (pool-9-thread-1) The filter has not been found. Filter id: 14621507953634074608218513988515298149
  * ERROR [org.web.pro.cor.fil.Filter] (pool-9-thread-1) Error sending request: org.web3j.protocol.core.filters.FilterException: Error sending request
  *         at org.web3j.protocol.core.filters.Filter.throwException(Filter.java:194)
